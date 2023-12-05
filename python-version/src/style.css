@@ -104,9 +104,8 @@ body {
     padding: 10px 0; /* Padding for aesthetics */
     color: #ffffff; /* Text color for visibility */
 }
-/* Hide the switch camera button by default */
+
 #switch-camera {
-    display: none;
     /* Styling similar to the capture button */
     width: 100%;
     height: 60px;

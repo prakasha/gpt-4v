@@ -81,6 +81,16 @@ function appendToChatbox(message, isUserMessage = false) {
 
 // Function to switch the camera source
 function switchCamera() {
+    
+    navigator.mediaDevices.enumerateDevices()
+    .then(devices => {
+        devices.filter(device => device.kind === 'videoinput')
+               .forEach(device => console.log(device.deviceId, device.label));
+    })
+    .catch(error => {
+        console.error('Error accessing media devices.', error);
+    });
+
     const video = document.getElementById('webcam');
     let usingFrontCamera = true; // This assumes the initial camera is the user-facing one
 
@@ -96,16 +106,40 @@ function switchCamera() {
             video.srcObject.getTracks().forEach(track => track.stop());
         }
         
+
+        // Define the deviceId for the USB camera
+        let deviceId = '6c620d35bf5f7eb0fd83a03710a0c584c96ecc5e7906ae9018616d051b18d7e9'; // Replace this with your actual device ID
+
+        // Stop any previous stream
+        if (video.srcObject) {
+            video.srcObject.getTracks().forEach(track => track.stop());
+        }
+
         // Start a new stream with the new constraints
-        navigator.mediaDevices.getUserMedia(constraints)
-            .then(stream => {
-                video.srcObject = stream;
-            })
-            .catch(error => {
-                console.error('Error accessing media devices.', error);
-            });
+        navigator.mediaDevices.getUserMedia({
+            video: {
+                deviceId: { exact: deviceId }
+            }
+        })
+        .then(stream => {
+            video.srcObject = stream;
+        })
+        .catch(error => {
+            console.error('Error accessing media devices.', error);
+        });
+
+        // // Start a new stream with the new constraints
+        // navigator.mediaDevices.getUserMedia(constraints)
+        //     .then(stream => {
+        //         video.srcObject = stream;
+        //     })
+        //     .catch(error => {
+        //         console.error('Error accessing media devices.', error);
+        //     });
     };
 }
+
+
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
