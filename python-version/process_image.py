@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__, static_folder='src', static_url_path='/')
 
 # Replace 'YOUR_DEFAULT_API_KEY' with the name of the environment variable
-DEFAULT_API_KEY = os.environ.get('YOUR_DEFAULT_API_KEY', 'YOUR_DEFAULT_API_KEY')
+DEFAULT_API_KEY = os.environ.get('OPENAI_API_KEY', 'OPENAI_API_KEY')
 
 
 @app.route('/')
